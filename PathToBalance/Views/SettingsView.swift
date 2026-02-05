@@ -43,7 +43,7 @@ struct SettingsView: View {
     
     var body: some View {
         ZStack {
-            Color(hex: "E3E0C9")
+            Color(hex: "F1E5D3")
                 .ignoresSafeArea(.all)
             
             NavigationView {
@@ -558,7 +558,7 @@ struct SettingsView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 0)
-                .background(Color(hex: "E3E0C9"))
+                .background(Color(hex: "F1E5D3"))
                 .navigationBarHidden(true)
             }
             .frame(maxWidth: .infinity)

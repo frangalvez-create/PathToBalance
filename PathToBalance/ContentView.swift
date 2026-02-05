@@ -211,7 +211,7 @@ struct ContentView: View {
                     // Custom Tab Bar
                     customTabBar
                 }
-                .background(Color(hex: "E3E0C9"))
+                .background(Color(hex: "F1E5D3"))
                 .ignoresSafeArea(.all)
                 .overlay(
                     // Info Popup
@@ -269,7 +269,7 @@ struct ContentView: View {
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(hex: "E3E0C9"))
+        .background(Color(hex: "F1E5D3"))
         .ignoresSafeArea(.all)
         .allowsHitTesting(true) // Block all interactions
         .onAppear {
@@ -398,11 +398,8 @@ struct ContentView: View {
                                         .multilineTextAlignment(.leading)
                                         .id("journalTextStart") // Identifier for scrolling to top
                                     
-                                    // AI Response
-                                    Text((try? AttributedString(markdown: currentAIResponse, options: AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace))) ?? AttributedString(currentAIResponse))
-                                        .font(.system(size: 15))
-                                        .foregroundColor(Color(hex: "39765A")) // Accent #39765A
-                                        .multilineTextAlignment(.leading)
+                                    // AI Response (Jedi Philosophy: and Balanced Action: bolded as paragraph titles)
+                                    formattedJournalAIResponseView(currentAIResponse)
                                         .padding(.leading, 12) // Indent 3 characters to the right
                                         .id("aiResponseEnd") // Identifier for scroll detection
                                 }
@@ -712,11 +709,8 @@ struct ContentView: View {
                                             .multilineTextAlignment(.leading)
                                             .id("openJournalTextStart") // Identifier for scrolling to top
                                         
-                                        // AI Response
-                                        Text((try? AttributedString(markdown: (isFollowUpQuestionDay ? followUpCurrentAIResponse : openCurrentAIResponse), options: AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace))) ?? AttributedString(isFollowUpQuestionDay ? followUpCurrentAIResponse : openCurrentAIResponse))
-                                            .font(.system(size: 15))
-                                            .foregroundColor(Color(hex: "39765A")) // Accent #39765A
-                                            .multilineTextAlignment(.leading)
+                                        // AI Response (Jedi Philosophy: and Balanced Action: bolded as paragraph titles for guided/open)
+                                        formattedJournalAIResponseView(isFollowUpQuestionDay ? followUpCurrentAIResponse : openCurrentAIResponse)
                                             .padding(.leading, 12) // Indent 3 characters to the right
                                             .id("openAIResponseEnd") // Identifier for scroll detection
                                     }
@@ -1059,22 +1053,26 @@ struct ContentView: View {
             )
         }
         
-        // Donate section - 175pt below Goal text field
-        VStack(spacing: 8) {
-            Link("Donate Here", destination: URL(string: "https://centeredselfapp.com/donate")!)
-                .font(.system(size: 13, weight: .bold))
-                .foregroundColor(Color(hex: "39765A"))
-                .opacity(0.8)
-            
-            Text("This app is free with no subscriptions or ads and only runs on donations. If you feel this app has helped you in any way, please consider making a donation to keep the app going. Thank you for your support!")
-                .font(.system(size: 10))
-                .foregroundColor(Color(hex: "545555"))
-                .opacity(0.8)
-                .multilineTextAlignment(.center)
-                .lineLimit(nil)
-        }
-        .padding(.horizontal, 20)
-        .padding(.top, 175)
+        // MARK: - Donate section (commented out - restore if needed)
+        // VStack(spacing: 8) {
+        //     Link("Donate Here", destination: URL(string: "https://centeredselfapp.com/donate")!)
+        //         .font(.system(size: 13, weight: .bold))
+        //         .foregroundColor(Color(hex: "39765A"))
+        //         .opacity(0.8)
+        //
+        //     Text("This app is free with no subscriptions or ads and only runs on donations. If you feel this app has helped you in any way, please consider making a donation to keep the app going. Thank you for your support!")
+        //         .font(.system(size: 10))
+        //         .foregroundColor(Color(hex: "545555"))
+        //         .opacity(0.8)
+        //         .multilineTextAlignment(.center)
+        //         .lineLimit(nil)
+        // }
+        // .padding(.horizontal, 20)
+        // .padding(.top, 175)
+        
+        // Restore original space between goal field and tab bar (175pt padding + ~70pt donate content height)
+        Color.clear
+            .frame(height: 245)
         
         // Add bottom padding for future navigation tabs
         Spacer(minLength: 5) // Extra space at bottom for navigation tabs
@@ -1495,17 +1493,17 @@ Task: Analyze how Jedi philosophy in the Star Wars universe would interpret the 
 User Question: The user ({gender}, occupation: {occupation}, born {birthdate}) was asked {question_text}
 Input: {content}
 Output Requirements:
-Produce a concise analysis in three short paragraphs
+Produce a concise analysis in three short paragraphs. You MUST use the exact labels below at the start of paragraphs 2 and 3.
 Paragraph 1: empathetically acknowledge the client's focus/concern and provide a factual explanation relevant to the input.
-Paragraph 2: Jedi Philosophy: Explain how Jedi philosophy in Star Wars is shown interpreting similar scenarios of the question/input
-Paragraph 3: Balanced Action: Describe a positive, achievable action aligned with calm leadership, patience, and self-mastery values and the goal to be {goal}.
+Paragraph 2: MUST begin with "Jedi Philosophy: " (include the colon and space) then explain how Jedi philosophy in Star Wars is shown interpreting similar scenarios of the question/input.
+Paragraph 3: MUST begin with "Balanced Action: " (include the colon and space) then describe a positive, achievable action aligned with calm leadership, stoic, and self-mastery values and the goal to be {goal}.
 Tone: Warm, conversational, analytical
 Do NOT:
 Speak as a Jedi or fictional authority
 Present guidance as real-world instruction
 Imply endorsement or affiliation
 Restate the input
-Include filler or labels
+Include filler (except the required "Jedi Philosophy:" and "Balanced Action:" labels)
 Extend lore beyond commentary
 Reference constraints
 Max Length: 200 words
@@ -2515,7 +2513,7 @@ Important: Keep reasoning minimal and respond directly.
             .padding(.horizontal, 24)
             .frame(maxWidth: .infinity)
         }
-        .background(Color(hex: "5E1C1C"))
+        .background(Color(hex: "39765A"))
         .ignoresSafeArea(.all, edges: .top)
         .onAppear {
             Task {
@@ -2631,7 +2629,7 @@ Important: Keep reasoning minimal and respond directly.
                 Spacer(minLength: 100)
             }
         }
-        .background(Color(hex: "E3E0C9"))
+        .background(Color(hex: "F1E5D3"))
         .ignoresSafeArea(.all, edges: .top)
     }
     
@@ -2639,7 +2637,7 @@ Important: Keep reasoning minimal and respond directly.
         VStack(alignment: .leading, spacing: 6) {
             Text("Mood Tracker")
                 .font(.system(size: 16, weight: .bold))
-                .foregroundColor(Color(hex: "B98FE8"))
+                .foregroundColor(Color(hex: "E8BD5B"))
                 .frame(maxWidth: .infinity, alignment: .center)
             
             if analyzerViewModel.moodCounts.isEmpty {
@@ -2824,7 +2822,7 @@ Important: Keep reasoning minimal and respond directly.
         VStack(spacing: 6) {
             Text("Statistics")
                 .font(.system(size: 16, weight: .bold))
-                .foregroundColor(Color(hex: "B98FE8"))
+                .foregroundColor(Color(hex: "E8BD5B"))
                 .frame(maxWidth: .infinity, alignment: .center)
             
             GeometryReader { geo in
@@ -2965,7 +2963,7 @@ Important: Keep reasoning minimal and respond directly.
         VStack(alignment: .leading, spacing: 6) {
             Text("Summary")
                 .font(.system(size: 16, weight: .bold))
-                .foregroundColor(Color(hex: "B98FE8"))
+                .foregroundColor(Color(hex: "E8BD5B"))
                 .frame(maxWidth: .infinity, alignment: .center)
             
             if let summaryText = analyzerViewModel.summaryText, !summaryText.isEmpty {
@@ -3176,6 +3174,77 @@ Important: Keep reasoning minimal and respond directly.
         }
     }
     
+    /// Formats journal AI response with "Jedi Philosophy:" and "Balanced Action:" as bold paragraph titles (like Summary/Next Week's Goal in analyzer)
+    @ViewBuilder
+    private func formattedJournalAIResponseView(_ text: String, textColor: String = "39765A") -> some View {
+        let normalizedText = text.replacingOccurrences(of: "\u{2019}", with: "'")
+        let jediMarker = "Jedi Philosophy:"
+        let actionMarker = "Balanced Action:"
+        
+        if let jediRange = normalizedText.range(of: jediMarker),
+           let actionRange = normalizedText.range(of: actionMarker), actionRange.lowerBound > jediRange.lowerBound {
+            // Both markers present: Paragraph 1 | Jedi Philosophy: P2 | Balanced Action: P3
+            let para1 = String(normalizedText[..<jediRange.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
+            let para2Content = String(normalizedText[jediRange.upperBound..<actionRange.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
+            let para3Content = String(normalizedText[actionRange.upperBound...]).trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            VStack(alignment: .leading, spacing: 12) {
+                if !para1.isEmpty {
+                    Text(para1)
+                        .font(.system(size: 15))
+                        .foregroundColor(Color(hex: textColor))
+                        .multilineTextAlignment(.leading)
+                }
+                (Text("Jedi Philosophy:").fontWeight(.bold) + Text(para2Content.isEmpty ? "" : " \(para2Content)"))
+                    .font(.system(size: 15))
+                    .foregroundColor(Color(hex: textColor))
+                    .multilineTextAlignment(.leading)
+                (Text("Balanced Action:").fontWeight(.bold) + Text(para3Content.isEmpty ? "" : " \(para3Content)"))
+                    .font(.system(size: 15))
+                    .foregroundColor(Color(hex: textColor))
+                    .multilineTextAlignment(.leading)
+            }
+        } else if let jediRange = normalizedText.range(of: jediMarker) {
+            // Only Jedi Philosophy:
+            let para1 = String(normalizedText[..<jediRange.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
+            let para2Content = String(normalizedText[jediRange.upperBound...]).trimmingCharacters(in: .whitespacesAndNewlines)
+            VStack(alignment: .leading, spacing: 12) {
+                if !para1.isEmpty {
+                    Text(para1)
+                        .font(.system(size: 15))
+                        .foregroundColor(Color(hex: textColor))
+                        .multilineTextAlignment(.leading)
+                }
+                (Text("Jedi Philosophy:").fontWeight(.bold) + Text(para2Content.isEmpty ? "" : " \(para2Content)"))
+                    .font(.system(size: 15))
+                    .foregroundColor(Color(hex: textColor))
+                    .multilineTextAlignment(.leading)
+            }
+        } else if let actionRange = normalizedText.range(of: actionMarker) {
+            // Only Balanced Action:
+            let para1 = String(normalizedText[..<actionRange.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
+            let para2Content = String(normalizedText[actionRange.upperBound...]).trimmingCharacters(in: .whitespacesAndNewlines)
+            VStack(alignment: .leading, spacing: 12) {
+                if !para1.isEmpty {
+                    Text(para1)
+                        .font(.system(size: 15))
+                        .foregroundColor(Color(hex: textColor))
+                        .multilineTextAlignment(.leading)
+                }
+                (Text("Balanced Action:").fontWeight(.bold) + Text(para2Content.isEmpty ? "" : " \(para2Content)"))
+                    .font(.system(size: 15))
+                    .foregroundColor(Color(hex: textColor))
+                    .multilineTextAlignment(.leading)
+            }
+        } else {
+            // No markers - plain text fallback
+            Text(normalizedText)
+                .font(.system(size: 15))
+                .foregroundColor(Color(hex: textColor))
+                .multilineTextAlignment(.leading)
+        }
+    }
+    
     @State private var isEditingFavorites = false
     
     private var favoritesPageView: some View {
@@ -3218,7 +3287,7 @@ Important: Keep reasoning minimal and respond directly.
                     List {
                         ForEach(journalViewModel.favoriteJournalEntries) { entry in
                             favoriteEntryView(entry: entry)
-                                .listRowBackground(Color(hex: "E3E0C9"))
+                                .listRowBackground(Color(hex: "F1E5D3"))
                                 .listRowSeparator(.hidden)
                                 .listRowInsets(EdgeInsets(top: 7.5, leading: 8, bottom: 7.5, trailing: 8))
                         }
@@ -3233,7 +3302,7 @@ Important: Keep reasoning minimal and respond directly.
                     .scrollContentBackground(.hidden)
                 }
             }
-            .background(Color(hex: "E3E0C9"))
+            .background(Color(hex: "F1E5D3"))
             
             // Edit Button positioned at top-right with functionality
             Button(action: {
@@ -3430,7 +3499,7 @@ Important: Keep reasoning minimal and respond directly.
         .padding(.horizontal, 20)
         .padding(.top, -5)
         .padding(.bottom, 22)
-        .background(Color(hex: "E3E0C9"))
+        .background(Color(hex: "F1E5D3"))
         .frame(height: 75) // Updated to 75pt height
     }
     
@@ -3471,7 +3540,7 @@ Important: Keep reasoning minimal and respond directly.
             
             // Simple popup content
             VStack(alignment: .leading, spacing: 8) {
-                Text("Free write and Explore Questions")
+                Text("Free write and Explore your mind")
                     .font(.system(size: 15, weight: .bold))
                     .foregroundColor(Color(hex: "545555"))
                 
@@ -3483,7 +3552,7 @@ Important: Keep reasoning minimal and respond directly.
                     .font(.system(size: 15))
                     .foregroundColor(Color(hex: "545555"))
                 
-                Text("• After completing your entry, you can tap the \"Insight\" button to receive Jedi philosophy interpretation and commentary.")
+                Text("• After completing your entry, you can tap the \"Insight\" button to receive Jedi philosophy interpretation and balanced action.")
                     .font(.system(size: 15))
                     .foregroundColor(Color(hex: "545555"))
                 
@@ -3518,7 +3587,7 @@ Important: Keep reasoning minimal and respond directly.
                 
             }
             .padding(16)
-            .background(Color(hex: "E3E0C9"))
+            .background(Color(hex: "F1E5D3"))
             .cornerRadius(16)
             .shadow(radius: 10)
             .padding(.horizontal, 20)
@@ -3578,7 +3647,7 @@ Important: Keep reasoning minimal and respond directly.
                 
             }
             .padding(16)
-            .background(Color(hex: "E3E0C9"))
+            .background(Color(hex: "F1E5D3"))
             .cornerRadius(16)
             .shadow(radius: 10)
             .padding(.horizontal, 20)
@@ -3615,7 +3684,7 @@ Important: Keep reasoning minimal and respond directly.
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(16)
-            .background(Color(hex: "E3E0C9"))
+            .background(Color(hex: "F1E5D3"))
             .cornerRadius(16)
             .shadow(radius: 10)
             .padding(.horizontal, 20)
@@ -3920,7 +3989,7 @@ Important: Keep reasoning minimal and respond directly.
 // Color Extensions
 extension Color {
     static let textBlue = Color(hex: "#39765A")
-    static let backgroundBeige = Color(hex: "#E3E0C9")
+    static let backgroundBeige = Color(hex: "#F1E5D3")
     static let textFieldBackground = Color(hex: "#F5F4EB")
     static let textGrey = Color(hex: "#545555")
     

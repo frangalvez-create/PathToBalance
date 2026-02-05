@@ -27,7 +27,7 @@ struct ProfileView: View {
             
             // Interactive Menu Sections
             VStack(spacing: 0) {
-                // What is Faith Check-in Section
+                // What is Path to Balance Section
                 Button(action: {
                     openCenteredSelf?()
                 }) {
@@ -38,7 +38,7 @@ struct ProfileView: View {
                             .frame(width: 26, height: 26)
                             .padding(.leading, 10) // 10pt from left edge
                         
-                        Text("What is Faith Check-in?")
+                        Text("What is Path to Balance?")
                             .font(.system(size: 16))
                             .foregroundColor(Color(hex: "39765A"))
                             .padding(.leading, 10) // 10pt to the right of icon
@@ -210,7 +210,7 @@ struct ProfileView: View {
             .padding(.bottom, 40) // 40pt from bottom
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(hex: "E4DCC9"))
+        .background(Color(hex: "F1E5D3"))
         .ignoresSafeArea(.all)
         .sheet(isPresented: $showingSettings) {
             SettingsView()

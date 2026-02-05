@@ -22,14 +22,16 @@ class SupabaseService: ObservableObject {
                 supabaseKey: "dummy"
             )
         } else {
-            // Real Supabase initialization
-            print("🚀 Connecting to real Supabase database...")
-            // Note: emitLocalSessionAsInitialSession configuration may not be available
-            // in current SDK version. The warning is informational and won't break the app.
-            self.supabase = SupabaseClient(
-                supabaseURL: URL(string: "https://huhfwtgblapyorltmvyw.supabase.co")!,
-                supabaseKey: "sb_publishable_XTCccaBrDtO2fi6V221X0Q_-krCBA33"
-            )
+            // Real Supabase initialization - read from Config.plist (Path to Balance database)
+            guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
+                  let config = NSDictionary(contentsOfFile: path),
+                  let urlString = config["SupabaseURL"] as? String,
+                  let url = URL(string: urlString),
+                  let key = config["SupabaseAPIKey"] as? String else {
+                fatalError("Supabase URL and API key not found in Config.plist")
+            }
+            print("🚀 Connecting to Path to Balance Supabase database...")
+            self.supabase = SupabaseClient(supabaseURL: url, supabaseKey: key)
         }
     }
     

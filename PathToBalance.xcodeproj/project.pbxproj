@@ -7,12 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		05D0BD7F2F327650005B8873 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 05D0BD7E2F327650005B8873 /* Auth */; };
-		05D0BD812F327650005B8873 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 05D0BD802F327650005B8873 /* Functions */; };
-		05D0BD832F327650005B8873 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 05D0BD822F327650005B8873 /* PostgREST */; };
-		05D0BD852F327650005B8873 /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 05D0BD842F327650005B8873 /* Realtime */; };
-		05D0BD872F327650005B8873 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 05D0BD862F327650005B8873 /* Storage */; };
-		05D0BD8A2F32767E005B8873 /* OpenAIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 05D0BD892F32767E005B8873 /* OpenAIKit */; };
+		05D0BD802F32767E005B8873 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 05D0BD812F32767E005B8873 /* Supabase */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,12 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05D0BD832F327650005B8873 /* PostgREST in Frameworks */,
-				05D0BD812F327650005B8873 /* Functions in Frameworks */,
-				05D0BD7F2F327650005B8873 /* Auth in Frameworks */,
-				05D0BD872F327650005B8873 /* Storage in Frameworks */,
-				05D0BD852F327650005B8873 /* Realtime in Frameworks */,
-				05D0BD8A2F32767E005B8873 /* OpenAIKit in Frameworks */,
+				05D0BD802F32767E005B8873 /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,12 +117,7 @@
 			);
 			name = PathToBalance;
 			packageProductDependencies = (
-				05D0BD7E2F327650005B8873 /* Auth */,
-				05D0BD802F327650005B8873 /* Functions */,
-				05D0BD822F327650005B8873 /* PostgREST */,
-				05D0BD842F327650005B8873 /* Realtime */,
-				05D0BD862F327650005B8873 /* Storage */,
-				05D0BD892F32767E005B8873 /* OpenAIKit */,
+				05D0BD812F32767E005B8873 /* Supabase */,
 			);
 			productName = PathToBalance;
 			productReference = 05D0BCF52F327147005B8873 /* PathToBalance.app */;
@@ -218,7 +203,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				05D0BD7D2F327650005B8873 /* XCRemoteSwiftPackageReference "supabase-swift" */,
-				05D0BD882F32767D005B8873 /* XCRemoteSwiftPackageReference "openai-kit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 05D0BCF62F327147005B8873 /* Products */;
@@ -444,13 +428,14 @@
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = 1;
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Debug;
@@ -489,13 +474,14 @@
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = 1;
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Release;
@@ -652,46 +638,13 @@
 				minimumVersion = 2.5.1;
 			};
 		};
-		05D0BD882F32767D005B8873 /* XCRemoteSwiftPackageReference "openai-kit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dylanshine/openai-kit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.8.2;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		05D0BD7E2F327650005B8873 /* Auth */ = {
+		05D0BD812F32767E005B8873 /* Supabase */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 05D0BD7D2F327650005B8873 /* XCRemoteSwiftPackageReference "supabase-swift" */;
-			productName = Auth;
-		};
-		05D0BD802F327650005B8873 /* Functions */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 05D0BD7D2F327650005B8873 /* XCRemoteSwiftPackageReference "supabase-swift" */;
-			productName = Functions;
-		};
-		05D0BD822F327650005B8873 /* PostgREST */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 05D0BD7D2F327650005B8873 /* XCRemoteSwiftPackageReference "supabase-swift" */;
-			productName = PostgREST;
-		};
-		05D0BD842F327650005B8873 /* Realtime */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 05D0BD7D2F327650005B8873 /* XCRemoteSwiftPackageReference "supabase-swift" */;
-			productName = Realtime;
-		};
-		05D0BD862F327650005B8873 /* Storage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 05D0BD7D2F327650005B8873 /* XCRemoteSwiftPackageReference "supabase-swift" */;
-			productName = Storage;
-		};
-		05D0BD892F32767E005B8873 /* OpenAIKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 05D0BD882F32767D005B8873 /* XCRemoteSwiftPackageReference "openai-kit" */;
-			productName = OpenAIKit;
+			productName = Supabase;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
