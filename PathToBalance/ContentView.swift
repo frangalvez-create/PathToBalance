@@ -1496,7 +1496,7 @@ Output Requirements:
 Produce a concise analysis in three short paragraphs. You MUST use the exact labels below at the start of paragraphs 2 and 3.
 Paragraph 1: empathetically acknowledge the client's focus/concern and provide a factual explanation relevant to the input.
 Paragraph 2: MUST begin with "Jedi Philosophy: " (include the colon and space) then explain how Jedi philosophy in Star Wars is shown interpreting similar scenarios of the question/input.
-Paragraph 3: MUST begin with "Balanced Action: " (include the colon and space) then describe a positive, achievable action aligned with calm leadership, stoic, and self-mastery values and the goal to be {goal}.
+Paragraph 3: MUST begin with "Balanced Action: " (include the colon and space) then describe a positive, achievable action aligned with stoic, and self-mastery values and the goal to be {goal}.
 Tone: Warm, conversational, analytical
 Do NOT:
 Speak as a Jedi or fictional authority
@@ -2580,7 +2580,7 @@ Important: Keep reasoning minimal and respond directly.
     private var centeredPageView: some View {
         ScrollView {
             VStack(spacing: 0) {
-                // Faith Check-in Title
+                // Path to Balance Title
                 Image("Centered Words")
                     .renderingMode(.original)
                     .resizable()
@@ -2599,7 +2599,7 @@ Important: Keep reasoning minimal and respond directly.
                     .padding(.bottom, 8) // Add bottom padding to create exact 2pt gap
                 
                 // First text chunk
-                Text("In today's fast-paced and secular world, it's easy to feel scattered as our minds swirl with complex emotions and thoughts. Staying grounded in faith, however, can help us navigate life's challenges. Our goal is to help people grow spiritually—living peacefully through their faith in God.")
+                Text("In today's fast-paced and chaotic world, it's easy to feel scattered as our minds swirl with complex emotions and thoughts. Staying centered mentally, however, can help us navigate life's challenges. Our goal is to train mindsets to live peacefully in a path to balance.")
                     .font(.system(size: 15))
                     .foregroundColor(Color(hex: "39765A"))
                     .multilineTextAlignment(.center)
@@ -2607,7 +2607,7 @@ Important: Keep reasoning minimal and respond directly.
                     .padding(.top, 15) // Added 15pt top padding
                 
                 // Second text chunk
-                Text("**Daily Check-in** - Keeping a daily check-in is a simple yet powerful way to maintain and grow in faith. Check-ins can help clear your mind, build spiritual awareness, find peace through prayer, manage emotions through faith, celebrate spiritual progress, and set meaningful faith-based goals.")
+                Text("Daily Training Questions - Exploring your thoughts and emotions through daily training is a simple yet powerful way to challenge, analyze and maintain a balanced mind… like a Jedi. Answering training questions can help clear your mind, act with intention, find inner peace, manage emotions, celebrate progress, and set meaningful transformative goals.")
                     .font(.system(size: 15))
                     .foregroundColor(Color(hex: "39765A"))
                     .multilineTextAlignment(.center)
@@ -2615,16 +2615,13 @@ Important: Keep reasoning minimal and respond directly.
                     .padding(.top, 17) // Changed from 12pt to 17pt
                 
                 
-                // Fourth text chunk with overlay icon
-                ZStack {
-                    Text("**Faith-Centered Insights** - Our app elevates your check-in experience with personalized, customized guidance that is supportive, inspiring, and faith-oriented. After each check-in entry, tap the \"Insights\" button to unlock tailored faith-based insights. You can further customize the insights by setting a spiritual goal and providing your personal information (occupation, age, gender etc) in the user settings page.")
-                        .font(.system(size: 15))
-                        .foregroundColor(Color(hex: "39765A"))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 20)
-                    
-                }
-                .padding(.top, 17) // Changed from 12pt to 17pt
+                // Third text chunk
+                Text("Jedi Interpreted Insights - Our app elevates your mind training with personalized feedback, situational interpretation of Jedi philosophies, and balanced actions. After each entry, tap the \"Insights\" button to unlock these tailored insights. You can further customize the insights by setting a goal and providing your personal information (occupation, age, gender etc) in the user settings page.")
+                    .font(.system(size: 15))
+                    .foregroundColor(Color(hex: "39765A"))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 17) // Changed from 12pt to 17pt
                             
                 Spacer(minLength: 100)
             }
