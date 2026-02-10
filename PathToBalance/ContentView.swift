@@ -1489,23 +1489,24 @@ struct ContentView: View {
     private func createAIPromptText(content: String, goal: String, questionText: String) -> String {
         let aiPromptTemplate = """
 Role: Scholar and commentator of Star Wars lore and Jedi philosophy
-Task: Analyze how Jedi philosophy in the Star Wars universe would interpret the user's response, drawing from themes commonly depicted in the films and series
+Task: Analyze how Jedi philosophy in the Star Wars universe would interpret the below, drawing from themes commonly depicted in the films and series
 User Question: The user ({gender}, occupation: {occupation}, born {birthdate}) was asked {question_text}
 Input: {content}
 Output Requirements:
 Produce a concise analysis in three short paragraphs. You MUST use the exact labels below at the start of paragraphs 2 and 3.
-Paragraph 1: empathetically acknowledge the client's focus/concern and provide a factual explanation relevant to the input.
-Paragraph 2: MUST begin with "Jedi Philosophy: " (include the colon and space) then explain how Jedi philosophy in Star Wars is shown interpreting similar scenarios of the question/input.
-Paragraph 3: MUST begin with "Balanced Action: " (include the colon and space) then describe a positive, achievable action aligned with stoic, and self-mastery values and the goal to be {goal}.
+Paragraph 1: empathetically acknowledge the user focus/concern and provide a factual explanation relevant to the input.
+Paragraph 2: MUST begin with "Jedi Philosophy: " (include the colon and space) then Reference themes commonly depicted in Star Wars storytelling and explain how Jedi philosophy is shown interpreting a narrative familiar but not directly to the question asked.
+Paragraph 3: MUST begin with "Balanced Action: " (include the colon and space) then provide one positive, achievable action or practice aligned with stoic style and self-mastery values addressing the above question/user input and the goal to be {goal}.
 Tone: Warm, conversational, analytical
 Do NOT:
 Speak as a Jedi or fictional authority
 Present guidance as real-world instruction
 Imply endorsement or affiliation
 Restate the input
-Include filler (except the required "Jedi Philosophy:" and "Balanced Action:" labels)
+Include filler or labels
 Extend lore beyond commentary
 Reference constraints
+Mention specific characters, locations, scenes, or in-universe institutions.
 Max Length: 200 words
 Important: Keep reasoning minimal and respond directly.
 """
@@ -2646,7 +2647,7 @@ Important: Keep reasoning minimal and respond directly.
                         .font(.system(size: 14, weight: .medium))
                         .foregroundColor(Color(hex: "39765A"))
                         .multilineTextAlignment(.center)
-                    Text("Run Analyze to see your top moods for the week.")
+                    Text("Tap the Analyze button to see your top moods for the week / month.")
                         .font(.system(size: 13))
                         .foregroundColor(Color(hex: "39765A").opacity(0.7))
                         .multilineTextAlignment(.center)
@@ -2983,7 +2984,7 @@ Important: Keep reasoning minimal and respond directly.
                         .font(.system(size: 14, weight: .medium))
                         .foregroundColor(Color(hex: "39765A"))
                         .multilineTextAlignment(.center)
-                    Text("Click Analyze below to see your weekly or monthly summary.")
+                    Text("Tap the Analyze button to see your weekly or monthly summary.")
                         .font(.system(size: 13))
                         .foregroundColor(Color(hex: "39765A").opacity(0.7))
                         .multilineTextAlignment(.center)
@@ -3702,7 +3703,7 @@ Important: Keep reasoning minimal and respond directly.
                 // Analyzer Section
                 Text("Analyzer")
                     .font(.system(size: 15, weight: .bold))
-                    .foregroundColor(Color(hex: "B98FE8"))
+                    .foregroundColor(Color(hex: "E8BD5B"))
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
@@ -3733,7 +3734,7 @@ Important: Keep reasoning minimal and respond directly.
                 // Analysis Availability Section
                 Text("Analysis Availability")
                     .font(.system(size: 15, weight: .bold))
-                    .foregroundColor(Color(hex: "B98FE8"))
+                    .foregroundColor(Color(hex: "E8BD5B"))
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top, 8)
@@ -3753,7 +3754,7 @@ Important: Keep reasoning minimal and respond directly.
                 // Analysis Training Entry Minimums Section
                 Text("Analysis Training Entry Minimums")
                     .font(.system(size: 15, weight: .bold))
-                    .foregroundColor(Color(hex: "B98FE8"))
+                    .foregroundColor(Color(hex: "E8BD5B"))
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top, 8)

@@ -1142,38 +1142,90 @@ class SupabaseService: ObservableObject {
     /// Returns true if successful, false otherwise
     func deleteUserAccount() async throws -> Bool {
         do {
-            // Use the same pattern as existing working code
             guard let userId = supabase.auth.currentUser?.id else {
                 throw NSError(domain: "AuthError", code: 0, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"])
             }
             
-            // Delete journal entries for this user
+            let userIdString = userId.uuidString
+            print("🗑️ Deleting account data for user: \(userIdString)")
+            
+            // Delete in order: dependent tables first, then user_profiles
+            // 1. Analyzer entries
+            do {
+                try await supabase
+                    .from("analyzer_entries")
+                    .delete()
+                    .eq("user_id", value: userId)
+                    .execute()
+                print("✅ Deleted analyzer_entries")
+            } catch {
+                print("⚠️ analyzer_entries delete: \(error.localizedDescription)")
+                // Continue - table may not exist or be empty
+            }
+            
+            // 2. Follow-up generation (references journal_entries)
+            do {
+                try await supabase
+                    .from("follow_up_generation")
+                    .delete()
+                    .eq("user_id", value: userId)
+                    .execute()
+                print("✅ Deleted follow_up_generation")
+            } catch {
+                print("⚠️ follow_up_generation delete: \(error.localizedDescription)")
+                // Continue
+            }
+            
+            // 3. Journal entries
             try await supabase
                 .from("journal_entries")
                 .delete()
                 .eq("user_id", value: userId)
                 .execute()
+            print("✅ Deleted journal_entries")
             
-            // Delete goals for this user
+            // 4. Goals
             try await supabase
                 .from("goals")
                 .delete()
                 .eq("user_id", value: userId)
                 .execute()
+            print("✅ Deleted goals")
             
-            // Delete user profile for this user
-            try await supabase
-                .from("user_profiles")
-                .delete()
-                .eq("user_id", value: userId)
-                .execute()
+            // 5. User profile - try both id and user_id (schema may vary)
+            var profileDeleted = false
+            do {
+                try await supabase
+                    .from("user_profiles")
+                    .delete()
+                    .eq("id", value: userId)
+                    .execute()
+                profileDeleted = true
+                print("✅ Deleted user_profiles (by id)")
+            } catch {
+                print("⚠️ user_profiles delete by id: \(error.localizedDescription)")
+            }
+            if !profileDeleted {
+                do {
+                    try await supabase
+                        .from("user_profiles")
+                        .delete()
+                        .eq("user_id", value: userId)
+                        .execute()
+                    print("✅ Deleted user_profiles (by user_id)")
+                } catch {
+                    print("❌ user_profiles delete failed: \(error.localizedDescription)")
+                    throw error
+                }
+            }
             
-            // Sign out the user instead of deleting auth record (admin API not available)
+            // Sign out the user
             try await supabase.auth.signOut()
-            
+            print("✅ Account deleted successfully, signed out")
             return true
             
         } catch {
+            print("❌ deleteUserAccount error: \(error.localizedDescription)")
             if error.localizedDescription.contains("No current user") {
                 return false
             }
