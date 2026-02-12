@@ -1051,33 +1051,51 @@ struct ContentView: View {
                 .offset(x: 330, y: 10), // 330pt to the right, 10pt down
                 alignment: .topLeading
             )
-        }
-        
-        // MARK: - Donate section (commented out - restore if needed)
-        // VStack(spacing: 8) {
-        //     Link("Donate Here", destination: URL(string: "https://centeredselfapp.com/donate")!)
-        //         .font(.system(size: 13, weight: .bold))
-        //         .foregroundColor(Color(hex: "39765A"))
-        //         .opacity(0.8)
-        //
-        //     Text("This app is free with no subscriptions or ads and only runs on donations. If you feel this app has helped you in any way, please consider making a donation to keep the app going. Thank you for your support!")
-        //         .font(.system(size: 10))
-        //         .foregroundColor(Color(hex: "545555"))
-        //         .opacity(0.8)
-        //         .multilineTextAlignment(.center)
-        //         .lineLimit(nil)
-        // }
-        // .padding(.horizontal, 20)
-        // .padding(.top, 175)
-        
-        // Restore original space between goal field and tab bar (175pt padding + ~70pt donate content height)
-        Color.clear
-            .frame(height: 245)
-        
-        // Add bottom padding for future navigation tabs
-        Spacer(minLength: 5) // Extra space at bottom for navigation tabs
+            .overlay(alignment: .bottom) {
+                // Swipe down hint - anchored to bottom center of goal text field; tapping HERE triggers refresh
+                VStack(spacing: 2) {
+                    Text("Swipe down to refresh daily questions.")
+                    HStack(spacing: 0) {
+                        Text("Or tap ")
+                        Button("HERE") {
+                            showLoadingView = true
+                        }
+                        .buttonStyle(.plain)
+                        .font(.system(size: 12))
+                        .italic()
+                        .foregroundColor(Color(hex: "39765A"))
+                    }
+                }
+                .font(.system(size: 12))
+                .italic()
+                .foregroundColor(Color(hex: "545555"))
+                .opacity(0.8)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
+                .offset(x: 0, y: 120)
             }
-            .padding(.bottom, 50) // Additional padding for navigation tabs
+            
+            // Donation body (title hidden)
+            VStack(spacing: 8) {
+                Link("Donate Here", destination: URL(string: "https://centeredselfapp.com/donate")!)
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundColor(Color(hex: "39765A"))
+                    .opacity(0.8)
+                    .hidden()
+                Text("This app is free with no subscriptions or ads. Our goal is to help as many people as we can to become more balanced. If we've helped you, please contact and support us [here](https://www.centeredselfapp.com/#contact-us).")
+                    .font(.system(size: 10))
+                    .foregroundColor(Color(hex: "545555"))
+                    .opacity(0.8)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(nil)
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 180)
+            .padding(.bottom, 0)
+            .frame(maxWidth: .infinity)
+            }
+            }
+            .padding(.bottom, 10) // 10pt above tab bar
             }
             .background(Color.backgroundBeige)
             .ignoresSafeArea(.all, edges: .top)
@@ -1090,7 +1108,7 @@ struct ContentView: View {
                         Color(hex: "4E4C4C").opacity(0.5)
                             .ignoresSafeArea()
                         
-        VStack {
+                        VStack {
                             ProgressView()
                                 .scaleEffect(1.2)
                             Text(getLoadingText())
@@ -3503,13 +3521,13 @@ Important: Keep reasoning minimal and respond directly.
     
     // MARK: - Welcome Message
     
-    private var welcomeMessageView: some View {
+    var welcomeMessageView: some View {
         OnboardingCarouselView {
                     dismissWelcomeMessage()
         }
     }
     
-    private func checkAndShowWelcomeMessage() {
+    func checkAndShowWelcomeMessage() {
         // Get user-specific key to prevent data leakage between users
         let userId = journalViewModel.currentUser?.id.uuidString ?? "anonymous"
         let hasSeenWelcomeKey = "hasSeenWelcome_\(userId)"
@@ -3519,7 +3537,7 @@ Important: Keep reasoning minimal and respond directly.
         }
     }
     
-    private func dismissWelcomeMessage() {
+    func dismissWelcomeMessage() {
         showWelcomeMessage = false
         // Get user-specific key to prevent data leakage between users
         let userId = journalViewModel.currentUser?.id.uuidString ?? "anonymous"
@@ -3527,7 +3545,7 @@ Important: Keep reasoning minimal and respond directly.
         UserDefaults.standard.set(true, forKey: hasSeenWelcomeKey)
     }
     
-    private var infoPopupView: some View {
+    var infoPopupView: some View {
         ZStack {
             // Background overlay
             Color.black.opacity(0.4)
@@ -3592,7 +3610,7 @@ Important: Keep reasoning minimal and respond directly.
         }
     }
     
-    private var q3InfoPopupView: some View {
+    var q3InfoPopupView: some View {
         ZStack {
             // Background overlay
             Color.black.opacity(0.4)
@@ -3652,7 +3670,7 @@ Important: Keep reasoning minimal and respond directly.
         }
     }
     
-    private var goalInfoPopupView: some View {
+    var goalInfoPopupView: some View {
         ZStack {
             // Background overlay
             Color.black.opacity(0.4)
@@ -3689,7 +3707,7 @@ Important: Keep reasoning minimal and respond directly.
         }
     }
     
-    private var q4InfoPopupView: some View {
+    var q4InfoPopupView: some View {
         ZStack {
             // Background overlay
             Color.black.opacity(0.4)
@@ -3782,7 +3800,7 @@ Important: Keep reasoning minimal and respond directly.
     // MARK: - Notification Scheduling Maintenance
     
     // Cancel all old static notifications (base identifiers without dates)
-    private func cancelOldStaticNotifications() async {
+    func cancelOldStaticNotifications() async {
         let baseIdentifiers = [
             "morning_reminder",
             "work_am_break_reminder",
@@ -3816,7 +3834,7 @@ Important: Keep reasoning minimal and respond directly.
     }
     
     // Clean up old static notifications and maintain new scheduling system
-    private func maintainNotificationScheduling() async {
+    func maintainNotificationScheduling() async {
         // First, cancel all old static notifications with base identifiers
         await cancelOldStaticNotifications()
         
@@ -3842,7 +3860,7 @@ Important: Keep reasoning minimal and respond directly.
     }
     
     // Get question for a specific date using the same logic as UI
-    private func getQuestionForDate(_ date: Date) async -> String {
+    func getQuestionForDate(_ date: Date) async -> String {
         do {
             let questions = try await journalViewModel.supabaseService.fetchGuidedQuestions()
             let sortedQuestions = questions.sorted { $0.orderIndex ?? 0 < $1.orderIndex ?? 0 }
@@ -3862,7 +3880,7 @@ Important: Keep reasoning minimal and respond directly.
     }
     
     // Get fallback static body text (used when question fetch fails or app hasn't been opened in 3+ days)
-    private func getFallbackBodyText(hour: Int, minute: Int) -> String {
+    func getFallbackBodyText(hour: Int, minute: Int) -> String {
         switch (hour, minute) {
         case (7, 0), (9, 30):
             return "Quick check-in to start your day?"
@@ -3876,7 +3894,7 @@ Important: Keep reasoning minimal and respond directly.
     }
     
     // Schedule notification for a specific date with a question
-    private func scheduleNotification(hour: Int, minute: Int, identifier: String, date: Date, questionText: String) {
+    func scheduleNotification(hour: Int, minute: Int, identifier: String, date: Date, questionText: String) {
         // Request permission first
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             // Handle authorization result
@@ -3920,7 +3938,7 @@ Important: Keep reasoning minimal and respond directly.
     }
     
     // Schedule notifications for the next N days
-    private func scheduleNotificationsForNextDays(baseIdentifier: String, hour: Int, minute: Int, daysAhead: Int) async {
+    func scheduleNotificationsForNextDays(baseIdentifier: String, hour: Int, minute: Int, daysAhead: Int) async {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
         
@@ -3965,7 +3983,7 @@ Important: Keep reasoning minimal and respond directly.
     }
     
     // MARK: - Loading Text Helper Function
-    private func getLoadingText() -> String {
+    func getLoadingText() -> String {
         if isLoadingGenerating || openIsLoadingGenerating {
             // Check retry attempt status
             switch journalViewModel.currentRetryAttempt {

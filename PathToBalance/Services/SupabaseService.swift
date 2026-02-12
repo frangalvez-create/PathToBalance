@@ -31,7 +31,10 @@ class SupabaseService: ObservableObject {
                 fatalError("Supabase URL and API key not found in Config.plist")
             }
             print("🚀 Connecting to Path to Balance Supabase database...")
-            self.supabase = SupabaseClient(supabaseURL: url, supabaseKey: key)
+            let options = SupabaseClientOptions(
+                auth: SupabaseClientOptions.AuthOptions(emitLocalSessionAsInitialSession: true)
+            )
+            self.supabase = SupabaseClient(supabaseURL: url, supabaseKey: key, options: options)
         }
     }
     
