@@ -398,7 +398,7 @@ struct ContentView: View {
                                         .multilineTextAlignment(.leading)
                                         .id("journalTextStart") // Identifier for scrolling to top
                                     
-                                    // AI Response (Jedi Philosophy: and Balanced Action: bolded as paragraph titles)
+                                    // AI Response (Jedi Interpretation: and Balanced Mindset: bolded as paragraph titles)
                                     formattedJournalAIResponseView(currentAIResponse)
                                         .padding(.leading, 12) // Indent 3 characters to the right
                                         .id("aiResponseEnd") // Identifier for scroll detection
@@ -709,7 +709,7 @@ struct ContentView: View {
                                             .multilineTextAlignment(.leading)
                                             .id("openJournalTextStart") // Identifier for scrolling to top
                                         
-                                        // AI Response (Jedi Philosophy: and Balanced Action: bolded as paragraph titles for guided/open)
+                                        // AI Response (Jedi Interpretation: and Balanced Mindset: bolded as paragraph titles for guided/open)
                                         formattedJournalAIResponseView(isFollowUpQuestionDay ? followUpCurrentAIResponse : openCurrentAIResponse)
                                             .padding(.leading, 12) // Indent 3 characters to the right
                                             .id("openAIResponseEnd") // Identifier for scroll detection
@@ -1090,7 +1090,7 @@ struct ContentView: View {
                     .lineLimit(nil)
             }
             .padding(.horizontal, 20)
-            .padding(.top, 180)
+            .padding(.top, 200)
             .padding(.bottom, 0)
             .frame(maxWidth: .infinity)
             }
@@ -1512,9 +1512,9 @@ User Question: The user ({gender}, occupation: {occupation}, born {birthdate}) w
 Input: {content}
 Output Requirements:
 Produce a concise analysis in three short paragraphs. You MUST use the exact labels below at the start of paragraphs 2 and 3.
-Paragraph 1: empathetically acknowledge the user focus/concern and provide a factual explanation relevant to the input.
-Paragraph 2: MUST begin with "Jedi Philosophy: " (include the colon and space) then Reference themes commonly depicted in Star Wars storytelling and explain how Jedi philosophy is shown interpreting a narrative familiar but not directly to the question asked.
-Paragraph 3: MUST begin with "Balanced Action: " (include the colon and space) then provide one positive, achievable action or practice aligned with stoic style and self-mastery values addressing the above question/user input and the goal to be {goal}.
+Paragraph 1: empathetically acknowledge the user focus/concern and provide a factual and neuro explanation relevant to the input.
+Paragraph 2: MUST begin with "Jedi Interpretation: " (include the colon and space) then reference themes commonly depicted in Star Wars storytelling and teach how Jedi philosophy is shown interpreting a narrative familiar but not directly to the question asked.
+Paragraph 3: MUST begin with "Balanced Mindset: " (include the colon and space) then provide one achievable action or practice that promotes balanced mindset/neuro training, relevant to the input and goal to be {goal}.
 Tone: Warm, conversational, analytical
 Do NOT:
 Speak as a Jedi or fictional authority
@@ -1524,7 +1524,7 @@ Restate the input
 Include filler or labels
 Extend lore beyond commentary
 Reference constraints
-Mention specific characters, locations, scenes, or in-universe institutions.
+Mention specific characters, locations, or in-universe institutions.
 Max Length: 200 words
 Important: Keep reasoning minimal and respond directly.
 """
@@ -3190,16 +3190,16 @@ Important: Keep reasoning minimal and respond directly.
         }
     }
     
-    /// Formats journal AI response with "Jedi Philosophy:" and "Balanced Action:" as bold paragraph titles (like Summary/Next Week's Goal in analyzer)
+    /// Formats journal AI response with "Jedi Interpretation:" and "Balanced Mindset:" as bold paragraph titles (like Summary/Next Week's Goal in analyzer)
     @ViewBuilder
     private func formattedJournalAIResponseView(_ text: String, textColor: String = "39765A") -> some View {
         let normalizedText = text.replacingOccurrences(of: "\u{2019}", with: "'")
-        let jediMarker = "Jedi Philosophy:"
-        let actionMarker = "Balanced Action:"
+        let jediMarker = "Jedi Interpretation:"
+        let actionMarker = "Balanced Mindset:"
         
         if let jediRange = normalizedText.range(of: jediMarker),
            let actionRange = normalizedText.range(of: actionMarker), actionRange.lowerBound > jediRange.lowerBound {
-            // Both markers present: Paragraph 1 | Jedi Philosophy: P2 | Balanced Action: P3
+            // Both markers present: Paragraph 1 | Jedi Interpretation: P2 | Balanced Mindset: P3
             let para1 = String(normalizedText[..<jediRange.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
             let para2Content = String(normalizedText[jediRange.upperBound..<actionRange.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
             let para3Content = String(normalizedText[actionRange.upperBound...]).trimmingCharacters(in: .whitespacesAndNewlines)
@@ -3211,17 +3211,17 @@ Important: Keep reasoning minimal and respond directly.
                         .foregroundColor(Color(hex: textColor))
                         .multilineTextAlignment(.leading)
                 }
-                (Text("Jedi Philosophy:").fontWeight(.bold) + Text(para2Content.isEmpty ? "" : " \(para2Content)"))
+                (Text("Jedi Interpretation:").fontWeight(.bold) + Text(para2Content.isEmpty ? "" : " \(para2Content)"))
                     .font(.system(size: 15))
                     .foregroundColor(Color(hex: textColor))
                     .multilineTextAlignment(.leading)
-                (Text("Balanced Action:").fontWeight(.bold) + Text(para3Content.isEmpty ? "" : " \(para3Content)"))
+                (Text("Balanced Mindset:").fontWeight(.bold) + Text(para3Content.isEmpty ? "" : " \(para3Content)"))
                     .font(.system(size: 15))
                     .foregroundColor(Color(hex: textColor))
                     .multilineTextAlignment(.leading)
             }
         } else if let jediRange = normalizedText.range(of: jediMarker) {
-            // Only Jedi Philosophy:
+            // Only Jedi Interpretation:
             let para1 = String(normalizedText[..<jediRange.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
             let para2Content = String(normalizedText[jediRange.upperBound...]).trimmingCharacters(in: .whitespacesAndNewlines)
             VStack(alignment: .leading, spacing: 12) {
@@ -3231,13 +3231,13 @@ Important: Keep reasoning minimal and respond directly.
                         .foregroundColor(Color(hex: textColor))
                         .multilineTextAlignment(.leading)
                 }
-                (Text("Jedi Philosophy:").fontWeight(.bold) + Text(para2Content.isEmpty ? "" : " \(para2Content)"))
+                (Text("Jedi Interpretation:").fontWeight(.bold) + Text(para2Content.isEmpty ? "" : " \(para2Content)"))
                     .font(.system(size: 15))
                     .foregroundColor(Color(hex: textColor))
                     .multilineTextAlignment(.leading)
             }
         } else if let actionRange = normalizedText.range(of: actionMarker) {
-            // Only Balanced Action:
+            // Only Balanced Mindset:
             let para1 = String(normalizedText[..<actionRange.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
             let para2Content = String(normalizedText[actionRange.upperBound...]).trimmingCharacters(in: .whitespacesAndNewlines)
             VStack(alignment: .leading, spacing: 12) {
@@ -3247,7 +3247,7 @@ Important: Keep reasoning minimal and respond directly.
                         .foregroundColor(Color(hex: textColor))
                         .multilineTextAlignment(.leading)
                 }
-                (Text("Balanced Action:").fontWeight(.bold) + Text(para2Content.isEmpty ? "" : " \(para2Content)"))
+                (Text("Balanced Mindset:").fontWeight(.bold) + Text(para2Content.isEmpty ? "" : " \(para2Content)"))
                     .font(.system(size: 15))
                     .foregroundColor(Color(hex: textColor))
                     .multilineTextAlignment(.leading)
@@ -3988,13 +3988,13 @@ Important: Keep reasoning minimal and respond directly.
             // Check retry attempt status
             switch journalViewModel.currentRetryAttempt {
             case 1:
-                return "Generating..."
+                return "Scanning ancient Jedi text…Do not tap away… Patience."
             case 2:
                 return "Retrying..."
             case 3:
                 return "Retrying again..."
             default:
-                return "Generating..."
+                return "Scanning ancient Jedi text…Do not tap away… Patience."
             }
         } else {
             return "Saving..."
