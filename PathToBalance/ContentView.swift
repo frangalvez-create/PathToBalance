@@ -294,21 +294,28 @@ struct ContentView: View {
                 Text(formatCurrentDate())
                     .font(.system(size: 14))
                     .foregroundColor(Color(hex: "545555").opacity(1.0))
-                    .padding(.top, 45)
+                    .padding(.top, 28)
                     .padding(.leading, 38)
                 
                 Spacer()
                 
-                Text("Streak: \(journalViewModel.calculateEntryStreak())")
-                    .font(.system(size: 14))
-                    .foregroundColor(Color(hex: "545555").opacity(1.0))
-                    .padding(.top, 45)
-                    .padding(.trailing, 30)
+                Button {
+                    showLoadingView = true
+                } label: {
+                    Image("Refresh Button")
+                        .renderingMode(.original)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 57, height: 57)
+                }
+                .buttonStyle(.plain)
+                .padding(.top, 28)
+                .padding(.trailing, 30)
             }
             
             // Top Logo (CS Logo.png)
             SafeImage("CS Logo", height: 80)
-                .padding(.top, -2)
+                .padding(.top, -25)
             
             // Daily Journal Title (DJ.png) - Reduced to 2/3 size
             Image("DJ")
@@ -398,7 +405,7 @@ struct ContentView: View {
                                         .multilineTextAlignment(.leading)
                                         .id("journalTextStart") // Identifier for scrolling to top
                                     
-                                    // AI Response (Jedi Interpretation: and Balanced Mindset: bolded as paragraph titles)
+                                    // AI Response (Jedi Philosophy: and Balanced Mindset: bolded as paragraph titles)
                                     formattedJournalAIResponseView(currentAIResponse)
                                         .padding(.leading, 12) // Indent 3 characters to the right
                                         .id("aiResponseEnd") // Identifier for scroll detection
@@ -709,7 +716,7 @@ struct ContentView: View {
                                             .multilineTextAlignment(.leading)
                                             .id("openJournalTextStart") // Identifier for scrolling to top
                                         
-                                        // AI Response (Jedi Interpretation: and Balanced Mindset: bolded as paragraph titles for guided/open)
+                                        // AI Response (Jedi Philosophy: and Balanced Mindset: bolded as paragraph titles for guided/open)
                                         formattedJournalAIResponseView(isFollowUpQuestionDay ? followUpCurrentAIResponse : openCurrentAIResponse)
                                             .padding(.leading, 12) // Indent 3 characters to the right
                                             .id("openAIResponseEnd") // Identifier for scroll detection
@@ -1051,29 +1058,6 @@ struct ContentView: View {
                 .offset(x: 330, y: 10), // 330pt to the right, 10pt down
                 alignment: .topLeading
             )
-            .overlay(alignment: .bottom) {
-                // Swipe down hint - anchored to bottom center of goal text field; tapping HERE triggers refresh
-                VStack(spacing: 2) {
-                    Text("Swipe down to refresh daily questions.")
-                    HStack(spacing: 0) {
-                        Text("Or tap ")
-                        Button("HERE") {
-                            showLoadingView = true
-                        }
-                        .buttonStyle(.plain)
-                        .font(.system(size: 12))
-                        .italic()
-                        .foregroundColor(Color(hex: "39765A"))
-                    }
-                }
-                .font(.system(size: 12))
-                .italic()
-                .foregroundColor(Color(hex: "545555"))
-                .opacity(0.8)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity)
-                .offset(x: 0, y: 120)
-            }
             
             // Donation body (title hidden)
             VStack(spacing: 8) {
@@ -1512,8 +1496,8 @@ User Question: The user ({gender}, occupation: {occupation}, born {birthdate}) w
 Input: {content}
 Output Requirements:
 Produce a concise analysis in three short paragraphs. You MUST use the exact labels below at the start of paragraphs 2 and 3.
-Paragraph 1: empathetically acknowledge the user focus/concern and provide a factual and neuro explanation relevant to the input.
-Paragraph 2: MUST begin with "Jedi Interpretation: " (include the colon and space) then reference themes commonly depicted in Star Wars storytelling and teach how Jedi philosophy is shown interpreting a narrative familiar but not directly to the question asked.
+Paragraph 1: empathetically acknowledge the user focus/concern and provide a factual and mindset explanation relevant to the input.
+Paragraph 2: MUST begin with "Jedi Philosophy: " (include the colon and space) then reference themes commonly depicted in Star Wars storytelling and teach how Jedi philosophy is shown interpreting a narrative familiar but not directly to the question asked.
 Paragraph 3: MUST begin with "Balanced Mindset: " (include the colon and space) then provide one achievable action or practice that promotes balanced mindset/neuro training, relevant to the input and goal to be {goal}.
 Tone: Warm, conversational, analytical
 Do NOT:
@@ -1524,7 +1508,6 @@ Restate the input
 Include filler or labels
 Extend lore beyond commentary
 Reference constraints
-Mention specific characters, locations, or in-universe institutions.
 Max Length: 200 words
 Important: Keep reasoning minimal and respond directly.
 """
@@ -3190,16 +3173,18 @@ Important: Keep reasoning minimal and respond directly.
         }
     }
     
-    /// Formats journal AI response with "Jedi Interpretation:" and "Balanced Mindset:" as bold paragraph titles (like Summary/Next Week's Goal in analyzer)
+    /// Formats journal AI response with "Jedi Philosophy:" and "Balanced Mindset:" as bold paragraph titles (like Summary/Next Week's Goal in analyzer)
     @ViewBuilder
     private func formattedJournalAIResponseView(_ text: String, textColor: String = "39765A") -> some View {
+        // Backward compatibility: old entries may use "Jedi Interpretation:" instead of "Jedi Philosophy:"
         let normalizedText = text.replacingOccurrences(of: "\u{2019}", with: "'")
-        let jediMarker = "Jedi Interpretation:"
+            .replacingOccurrences(of: "Jedi Interpretation:", with: "Jedi Philosophy:")
+        let jediMarker = "Jedi Philosophy:"
         let actionMarker = "Balanced Mindset:"
         
         if let jediRange = normalizedText.range(of: jediMarker),
            let actionRange = normalizedText.range(of: actionMarker), actionRange.lowerBound > jediRange.lowerBound {
-            // Both markers present: Paragraph 1 | Jedi Interpretation: P2 | Balanced Mindset: P3
+            // Both markers present: Paragraph 1 | Jedi Philosophy: P2 | Balanced Mindset: P3
             let para1 = String(normalizedText[..<jediRange.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
             let para2Content = String(normalizedText[jediRange.upperBound..<actionRange.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
             let para3Content = String(normalizedText[actionRange.upperBound...]).trimmingCharacters(in: .whitespacesAndNewlines)
@@ -3211,7 +3196,7 @@ Important: Keep reasoning minimal and respond directly.
                         .foregroundColor(Color(hex: textColor))
                         .multilineTextAlignment(.leading)
                 }
-                (Text("Jedi Interpretation:").fontWeight(.bold) + Text(para2Content.isEmpty ? "" : " \(para2Content)"))
+                (Text("Jedi Philosophy:").fontWeight(.bold) + Text(para2Content.isEmpty ? "" : " \(para2Content)"))
                     .font(.system(size: 15))
                     .foregroundColor(Color(hex: textColor))
                     .multilineTextAlignment(.leading)
@@ -3221,7 +3206,7 @@ Important: Keep reasoning minimal and respond directly.
                     .multilineTextAlignment(.leading)
             }
         } else if let jediRange = normalizedText.range(of: jediMarker) {
-            // Only Jedi Interpretation:
+            // Only Jedi Philosophy:
             let para1 = String(normalizedText[..<jediRange.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
             let para2Content = String(normalizedText[jediRange.upperBound...]).trimmingCharacters(in: .whitespacesAndNewlines)
             VStack(alignment: .leading, spacing: 12) {
@@ -3231,7 +3216,7 @@ Important: Keep reasoning minimal and respond directly.
                         .foregroundColor(Color(hex: textColor))
                         .multilineTextAlignment(.leading)
                 }
-                (Text("Jedi Interpretation:").fontWeight(.bold) + Text(para2Content.isEmpty ? "" : " \(para2Content)"))
+                (Text("Jedi Philosophy:").fontWeight(.bold) + Text(para2Content.isEmpty ? "" : " \(para2Content)"))
                     .font(.system(size: 15))
                     .foregroundColor(Color(hex: textColor))
                     .multilineTextAlignment(.leading)
